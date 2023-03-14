@@ -1,2 +1,2 @@
 # Ing.software
-Repositorio de ing. de software de la universidad de mendoza 
+Repositorio de ING. de Software de la Universidad de Mendoza 
