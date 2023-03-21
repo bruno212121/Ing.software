@@ -1,0 +1,26 @@
+@startuml
+
+actor Client
+participant Article
+participant OrderService
+participant ShipService
+database MYSQL
+
+Client -> Article: create order
+activate Article
+Article -> OrderService: create order
+activate OrderService
+OrderService -> MYSQL: check stock
+activate MYSQL
+MYSQL -> ShipService: available stock
+deactivate MYSQL
+activate ShipService
+ShipService -> OrderService: available stock
+deactivate ShipService
+OrderService -> Article: created order
+deactivate OrderService
+Article -> Client: created order
+deactivate Article
+
+
+@enduml
