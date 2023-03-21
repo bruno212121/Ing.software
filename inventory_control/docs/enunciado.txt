@@ -1,0 +1,9 @@
+Un usuario se loguea (ficcion no hay log) como una sucursal, hace un pedido de uno o diferentes articulos y sus respectivas cantidades, antes de hacer el pedido consulta el stock para ver que puede pedir y cuanto.
+
+Cuando la sucursal hace el pedido a la casa central, se crea una orden y se le entrega un codigo de envio a la sucursal, es decir que se crea un envio tambien.
+
+La sucursal puede ir viendo el envio, si esta (pendiente, en camino, entregado).
+
+Un admin puede actualizar el estado de un envio (puede marcar cuando un envio sale de la casa central). Cuando el envio pasa de estar pendiente a en camino se actualiza estado de la orden a out, cuando el estado de la orden pasa a out actualiza el stock de los articulos disponibles en casa central. 
+
+El admin es un usario tambien pero se supone que aprueba los pedidos y por ende da inicio a los envios.

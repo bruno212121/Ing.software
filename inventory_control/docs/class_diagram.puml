@@ -1,0 +1,103 @@
+@startuml
+
+class Article {
+    ' Props
+    - id: int
+    - name: string
+    - descripcion: string
+    - code: int
+    - amount: int
+    - articleCategory: Category
+    - softDeleted: boolean
+
+    ' Methods
+    + addArticle()
+    + updateArticle()
+    + deleteArticle()
+}
+
+class StockService {
+    ' Methods
+    + updateStock()
+    + getStocks()
+    + getStocksByArticle()
+}
+
+class Category {
+    ' Props
+    - id: int
+    - name: string
+    - description: string
+    - categoryCode: int
+    - softDeleted: boolean
+}
+
+class Order {
+    ' Props
+    - id: int
+    - orderCode: int
+    - date: Date
+    - sucursal: int
+    - statusOut: boolean
+    - softDeleted: boolean
+
+    ' Methods
+    ' + updateArticleStock()
+
+}
+
+class ArticlesOrder {
+    ' Props
+    - id: int
+    - idArticle: Article
+    - idOrder: Order
+    - amountArticle: int
+    - softDeleted: boolean
+
+}
+
+class Ship {
+    ' Props
+    - id: int
+    - idOrder: Order
+    - shipCode: string
+    - status: string
+    
+    ' Methods
+    ' + updateOrderStatusOut()
+}
+
+class User {
+    ' Props
+    - id: int
+    - name: string
+    - password: string
+    - admin: boolean
+
+    ' Methods
+    ' + createAnOrder()
+    ' + checkMyOrders()
+    ' + updateShipStatus()
+    ' + addAnArticle()
+
+}
+
+class OrderService {
+    ' Methods
+    + createOrder()
+    + updateOrder()
+    + deleteOrder()
+    + getOrders()
+    + getOrdersByStatusOut()
+}
+
+class ShipSrevice {
+    ' Methods
+    + createShip()
+    + updateShip()
+    + deleteShip()
+    + getShips()
+    + getShipsByStatus()
+}
+
+@enduml
