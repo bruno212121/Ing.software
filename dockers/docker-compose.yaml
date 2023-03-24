@@ -1,0 +1,12 @@
+version: "1.1"
+
+services:
+    mysql:
+        build: ../db/
+        restart: always
+        ports:
+            - "3306:3306"
+        environment:
+            - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+            - MYSQL_DATABASE=${DB_DATABASE}
+        container_name: db_ingsoft
