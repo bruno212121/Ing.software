@@ -1,5 +1,10 @@
 import os
 from main import create_app, db
+from main.models import ArticleModel
+
+import logging
+logging.basicConfig()
+logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
 
 app = create_app()
