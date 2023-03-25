@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 import mysql.connector
 
-
 db = SQLAlchemy()
 
 def create_app():
