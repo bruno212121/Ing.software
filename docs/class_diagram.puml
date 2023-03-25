@@ -49,8 +49,8 @@ class Order {
 class ArticlesOrder {
     ' Props
     - id: int
-    - idArticle: Article
-    - idOrder: Order
+    - Article: Article
+    - Order: Order
     - amountArticle: int
     - softDeleted: boolean
 
@@ -59,7 +59,7 @@ class ArticlesOrder {
 class Ship {
     ' Props
     - id: int
-    - idOrder: Order
+    - Order: Order
     - shipCode: string
     - status: string
     
@@ -67,11 +67,10 @@ class Ship {
     ' + updateOrderStatusOut()
 }
 
-class User {
+class Sucursal {
     ' Props
     - id: int
     - name: string
-    - password: string
     - admin: boolean
 
     ' Methods

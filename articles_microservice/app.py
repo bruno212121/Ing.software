@@ -2,9 +2,9 @@ import os
 from main import create_app, db
 from main.models import ArticleModel, CategoryModel
 
-import logging
-logging.basicConfig()
-logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
+# import logging
+# logging.basicConfig()
+# logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
 
 app = create_app()
