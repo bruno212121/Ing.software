@@ -8,7 +8,7 @@ class Category(db.Model):
     __name = db.Column('name', db.String(100))
     __description = db.Column('description', db.String(100))
     __category_code = db.Column('category_code', db.Integer)
-    __soft_delete = db.Column('soft_delete', db.Boolean)
+    __soft_delete = db.Column('soft_delete', db.Boolean, default=False)
     articles = db.relationship('Article', back_populates='category', cascade="all, delete-orphan")
 
     @hybrid_property

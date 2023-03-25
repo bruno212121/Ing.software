@@ -3,7 +3,9 @@ from flask import Flask
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 import mysql.connector
+from flask_restful import Api
 
+api = Api()
 db = SQLAlchemy()
 
 def create_app():
@@ -21,5 +23,11 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+mysqlconnector://{USER}:{PASSWORD}@{HOST}:{PORT}/{DB_NAME}'
 
     db.init_app(app)
+
+    import main.controllers as controllers
+    api.add_resource(controllers.ArticleController, '/articles')
+    api.add_resource(controllers.CategoryController, '/categories')
+
+    api.init_app(app)
 
     return app
