@@ -1,16 +1,15 @@
 from .. import db
 from sqlalchemy.ext.hybrid import hybrid_property
 
-class Article(db.Model):
-    __tablename__ = 'articles'
+class Category(db.Model):
+
+    __tablename__ = 'categories'
     __id = db.Column('id', db.Integer, primary_key=True)
     __name = db.Column('name', db.String(100))
     __description = db.Column('description', db.String(100))
-    __code = db.Column('code', db.Integer)
-    __amount = db.Column('amount', db.Integer)
-    __category_id = db.Column('category_id', db.Integer, db.ForeignKey('categories.id'), nullable=False)
+    __category_code = db.Column('category_code', db.Integer)
     __soft_delete = db.Column('soft_delete', db.Boolean)
-    category = db.relationship('Category', back_populates='articles')
+    articles = db.relationship('Article', back_populates='category', cascade="all, delete-orphan")
 
     @hybrid_property
     def id(self):
@@ -35,7 +34,7 @@ class Article(db.Model):
     @name.deleter
     def name(self):
         del self.__name
-    
+
     @hybrid_property
     def description(self):
         return self.__description
@@ -47,42 +46,18 @@ class Article(db.Model):
     @description.deleter
     def description(self):
         del self.__description
-    
-    @hybrid_property
-    def code(self):
-        return self.__code
-    
-    @code.setter
-    def code(self, code):
-        self.__code = code
-
-    @code.deleter
-    def code(self):
-        del self.__code
-    
-    @hybrid_property
-    def amount(self):
-        return self.__amount
-    
-    @amount.setter
-    def amount(self, amount):
-        self.__amount = amount
-
-    @amount.deleter
-    def amount(self):
-        del self.__amount
 
     @hybrid_property
-    def category_id(self):
-        return self.__category_id
+    def category_code(self):
+        return self.__category_code
     
-    @category_id.setter
-    def category_id(self, category_id):
-        self.__category_id = category_id
+    @category_code.setter
+    def category_code(self, category_code):
+        self.__category_code = category_code
 
-    @category_id.deleter
-    def category_id(self):
-        del self.__category_id
+    @category_code.deleter
+    def category_code(self):
+        del self.__category_code
     
     @hybrid_property
     def soft_delete(self):
@@ -92,3 +67,6 @@ class Article(db.Model):
     def soft_delete(self, soft_delete):
         self.__soft_delete = soft_delete
 
+    @soft_delete.deleter
+    def soft_delete(self):
+        del self.__soft_delete
