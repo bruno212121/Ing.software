@@ -9,7 +9,7 @@ class Article(db.Model):
     __code = db.Column('code', db.Integer)
     __amount = db.Column('amount', db.Integer)
     __category_id = db.Column('category_id', db.Integer, db.ForeignKey('categories.id'), nullable=False)
-    __soft_delete = db.Column('soft_delete', db.Boolean)
+    __soft_delete = db.Column('soft_delete', db.Boolean, default=False)
     category = db.relationship('Category', back_populates='articles')
 
     @hybrid_property

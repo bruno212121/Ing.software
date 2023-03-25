@@ -8,9 +8,14 @@ category_repository = CategoryRepository()
 
 class StockService:
 
+    # TODO: esto despues se puede desacoplar mas pero por ahora tener un stockservice que haga todo esta bien
+
     def add_article(self, article):
         article_repository.create(article)
         return article_schema.dump(article)
+    
+    def get_articles(self):
+        return article_repository.find_all()
     
     def add_category(self, category):
         category_repository.create(category)

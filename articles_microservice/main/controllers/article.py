@@ -11,3 +11,6 @@ class ArticleController(Resource):
     def post(self):
         article = article_schema.load(request.get_json())
         return article_schema.dump(stock_service.add_article(article))
+    
+    def get(self):
+        return article_schema.dump(stock_service.get_articles(), many=True)
