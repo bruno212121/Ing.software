@@ -24,9 +24,11 @@ def create_app():
 
     db.init_app(app)
 
+    # TODO: si descomento esto fallan todos los tests taquelorepario
+
     import main.controllers as controllers
-    api.add_resource(controllers.ArticleController, '/articles')
-    api.add_resource(controllers.CategoryController, '/categories')
+    api.add_resource(controllers.ArticleController, '/articles', endpoint='articles')
+    api.add_resource(controllers.CategoryController, '/categories', endpoint='categories')
 
     api.init_app(app)
 

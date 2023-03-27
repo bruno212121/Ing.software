@@ -1,6 +1,14 @@
 version: "1.1"
 
 services:
+
+    # articles:
+    #     build: ../articles_microservice/
+    #     ports:
+    #         - "7000:7000"
+    #     depends_on:
+    #         - mysql
+
     mysql:
         build: ../db/
         restart: always
@@ -10,3 +18,5 @@ services:
             - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
             - MYSQL_DATABASE=${DB_DATABASE}
         container_name: db_ingsoft
+
+        
