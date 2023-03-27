@@ -1,6 +1,14 @@
 version: "1.1"
 
 services:
+
+    # articles:
+    #     build: ../articles_microservice/
+    #     ports:
+    #         - "7000:7000"
+    #     depends_on:
+    #         - mysql
+
     mysql:
         build: ../db/
         restart: always
@@ -10,41 +18,3 @@ services:
             - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
             - MYSQL_DATABASE=${DB_DATABASE}
         container_name: db_ingsoft
-
-
-    articles_ms:
-        container_name: articles_ms
-        image: articles_ms
-        ports:
-            - "85:7000"
-        environment:
-            - PORT=7000
-            - DATABASE_NAME=${DB_DATABASE}
-            - DATABASE_PORT=3306
-            - DATABASE_URL=db_ingsoft
-            - DATABASE_USER=${DB_USER}
-            - DATABASE_PASSWORD=${DB_PASSWORD}
-
-        networks:
-            - red
-        restart: always
-
-    shipping_ms:
-        container_name: shipping_ms
-        image: shipping_ms
-        ports:
-            - "86:6000"
-        environment:
-            - PORT=6000
-            - DATABASE_NAME=${DB_DATABASE}
-            - DATABASE_PORT=3306
-            - DATABASE_URL=db_ingsoft
-            - DATABASE_USER=${DB_USER}
-            - DATABASE_PASSWORD=${DB_PASSWORD}
-            
-        networks:
-            - red
-        restart: always
-
-networks:
-  red:

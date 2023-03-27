@@ -6,8 +6,6 @@ from flask import current_app
 sys.path.append('..')
 from app import create_app
 
-
-
 class AppTestCase(unittest.TestCase):
 
     def test_setUp(self):
