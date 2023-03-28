@@ -31,3 +31,7 @@ class ArticleRepository(Create, Update, Delete, Read):
     
     def find_by_id(self, id):
         return db.session.query(self.model).get(id)
+    
+    def soft_delete(self, objeto):
+        objeto.soft_delete = True
+        return self.update(objeto)

@@ -28,7 +28,10 @@ class StockService:
     def delete_article(self, article):
         article_repository.delete(article)
         return article_schema.dump(article)
-
+    
+    def soft_delete_article(self, article):
+        article_repository.soft_delete(article)
+        return article_schema.dump(article)
 
     #categorias
     def add_category(self, category):
