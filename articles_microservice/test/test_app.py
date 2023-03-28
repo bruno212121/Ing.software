@@ -16,6 +16,5 @@ class AppTestCase(unittest.TestCase):
     def tearDown(self):
         self.app_context.pop()
 
-    # test connection to db
     def test_app(self):
         self.assertIsNotNone(current_app)

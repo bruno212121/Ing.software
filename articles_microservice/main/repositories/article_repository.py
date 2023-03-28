@@ -12,12 +12,10 @@ class ArticleRepository(Create, Update, Delete, Read):
         db.session.commit()
         return objeto
 
-    def update(self, id, data):
-        objeto = self.model.query.get(id)
-        for key, value in data.items():
-            setattr(objeto, key, value)
+    def update(self, data):
+        db.session.add(data)
         db.session.commit()
-        return objeto
+        return data
 
     def delete(self, id):
         objeto = self.model.query.get(id)

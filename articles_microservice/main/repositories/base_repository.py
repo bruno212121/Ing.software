@@ -7,7 +7,7 @@ class Create(ABC):
 
 class Update(ABC):
     @abstractmethod
-    def update(self, id, data):
+    def update(self, data):
         pass
 
 class Delete(ABC):
