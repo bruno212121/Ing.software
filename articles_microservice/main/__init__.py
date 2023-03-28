@@ -27,8 +27,9 @@ def create_app():
 
     # TODO: si descomento esto fallan todos los tests taquelorepario
     try:
-        from main.controllers import ArticleController, CategoryController
-        api.add_resource(ArticleController, '/articles', endpoint='articles')
+        from main.controllers import ArticleController, ArticlesController, CategoryController
+        api.add_resource(ArticleController, '/article/<int:id>', endpoint='article')
+        api.add_resource(ArticlesController, '/articles', endpoint='articles')
         api.add_resource(CategoryController, '/categories', endpoint='categories')
 
         api.init_app(app)

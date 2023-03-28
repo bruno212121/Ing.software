@@ -6,7 +6,7 @@ from main.services import StockService
 article_schema = ArticleSchema()
 stock_service = StockService()
 
-class ArticleController(Resource):
+class ArticlesController(Resource):
 
     def post(self):
         article = article_schema.load(request.get_json())
@@ -19,6 +19,8 @@ class ArticleController(Resource):
         article = article_schema.load(request.get_json())
         return article_schema.dump(stock_service.edit_article(article))
     
-    def delete(self):
-        article = article_schema.load(request.get_json())
-        return article_schema.dump(stock_service.delete_article(article))
+class ArticleController(Resource):
+
+    def delete(self, id):
+        article = stock_service.get_article(id)
+        return article_schema.dump(stock_service.soft_delete_article(article))
