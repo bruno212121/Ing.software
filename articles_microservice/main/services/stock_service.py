@@ -18,6 +18,9 @@ class StockService:
     def get_articles(self):
         return article_repository.find_all()
     
+    def get_article(self, id):
+        return article_repository.find_by_id(id)
+    
     def edit_article(self, article):
         article_repository.update(article)
         return article_schema.dump(article)
@@ -25,11 +28,17 @@ class StockService:
     def delete_article(self, article):
         article_repository.delete(article)
         return article_schema.dump(article)
-
+    
+    def soft_delete_article(self, article):
+        article_repository.soft_delete(article)
+        return article_schema.dump(article)
 
     #categorias
     def add_category(self, category):
         category_repository.create(category)
         return category_schema.dump(category)
+    
+    def get_category(self, id):
+        return category_repository.find_by_id(id)
     
     

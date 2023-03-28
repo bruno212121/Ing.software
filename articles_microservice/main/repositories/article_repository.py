@@ -12,12 +12,10 @@ class ArticleRepository(Create, Update, Delete, Read):
         db.session.commit()
         return objeto
 
-    def update(self, id, data):
-        objeto = self.model.query.get(id)
-        for key, value in data.items():
-            setattr(objeto, key, value)
+    def update(self, data):
+        db.session.add(data)
         db.session.commit()
-        return objeto
+        return data
 
     def delete(self, id):
         objeto = self.model.query.get(id)
@@ -30,3 +28,10 @@ class ArticleRepository(Create, Update, Delete, Read):
 
     def find_all(self):
         return self.model.query.all()
+    
+    def find_by_id(self, id):
+        return db.session.query(self.model).get(id)
+    
+    def soft_delete(self, objeto):
+        objeto.soft_delete = True
+        return self.update(objeto)
