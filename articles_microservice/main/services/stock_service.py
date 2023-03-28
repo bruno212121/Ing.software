@@ -10,6 +10,7 @@ class StockService:
 
     # TODO: esto despues se puede desacoplar mas pero por ahora tener un stockservice que haga todo esta bien
 
+    #articulos
     def add_article(self, article):
         article_repository.create(article)
         return article_schema.dump(article)
@@ -17,6 +18,18 @@ class StockService:
     def get_articles(self):
         return article_repository.find_all()
     
+    def edit_article(self, article):
+        article_repository.update(article)
+        return article_schema.dump(article)
+    
+    def delete_article(self, article):
+        article_repository.delete(article)
+        return article_schema.dump(article)
+
+
+    #categorias
     def add_category(self, category):
         category_repository.create(category)
         return category_schema.dump(category)
+    
+    

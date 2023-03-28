@@ -14,3 +14,11 @@ class ArticleController(Resource):
     
     def get(self):
         return article_schema.dump(stock_service.get_articles(), many=True)
+
+    def put(self):
+        article = article_schema.load(request.get_json())
+        return article_schema.dump(stock_service.edit_article(article))
+    
+    def delete(self):
+        article = article_schema.load(request.get_json())
+        return article_schema.dump(stock_service.delete_article(article))

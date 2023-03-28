@@ -1,1 +1,1 @@
-"""falta crear de los archivos de servicios de la aplicacion"""
+from .stock_service import StockService

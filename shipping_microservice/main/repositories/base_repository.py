@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 
-
 class Create(ABC):
     @abstractmethod
     def create(self, objeto):
