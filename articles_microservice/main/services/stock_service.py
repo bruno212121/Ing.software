@@ -18,6 +18,9 @@ class StockService:
     def get_articles(self):
         return article_repository.find_all()
     
+    def get_article(self, id):
+        return article_repository.find_by_id(id)
+    
     def edit_article(self, article):
         article_repository.update(article)
         return article_schema.dump(article)

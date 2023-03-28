@@ -33,42 +33,27 @@ class StockServiceTestCase(unittest.TestCase):
         category = stock_service.get_category(category.id)
         self.assertIsNotNone(category)
 
-    # def test_article(self):
-    #     article = ArticleModel(
-    #         # id=1,
-    #         name="Test Article",
-    #         description="Test Description",
-    #         code=1234,
-    #         amount=10,
-    #         category_id=1
-    #     )
-    #     stock_service.add_article(article)
-    #     self.assertEqual(article.name, "Test Article")
+    def test_article(self):
 
-#     # def test_get_stock(self):
-#     #     article = ArticleModel(
-#     #         id=1,
-#     #         name="Test Article",
-#     #         price=10,
-#     #         stock=10
-#     #     )
-#     #     db.session.add(article)
-#     #     db.session.commit()
-#     #     stock = self.stock_service.get_stock(article.id)
-#     #     self.assertEqual(stock, 10)
+        category = CategoryModel(
+            name="Test Category",
+            description="Test Description",
+            category_code=1234
+        )
+        stock_service.add_category(category)
+        category = stock_service.get_category(category.id)
 
-#     # def test_update_stock(self):
-#     #     article = ArticleModel(
-#     #         id=1,
-#     #         name="Test Article",
-#     #         price=10,
-#     #         stock=10
-#     #     )
-#     #     db.session.add(article)
-#     #     db.session.commit()
-#     #     self.stock_service.update_stock(article.id, 5)
-#     #     stock = self.stock_service.get_stock(article.id)
-#     #     self.assertEqual(stock, 5)
+        article = ArticleModel(
+            name="Test Article",
+            description="Test Description",
+            code=1234,
+            amount=10,
+            category_id=category.id
+        )
+        stock_service.add_article(article)
+        self.assertGreater(article.id, 0)
+        article = stock_service.get_article(article.id)
+        self.assertIsNotNone(article)
 
     
 
