@@ -7,7 +7,7 @@ class OrderSchema(Schema):
     order_code = fields.Int(required=True)
     date = fields.DateTime(required=True)
     sucursal = fields.Str(required=True)
-    status_out = fields.boolean(required=True)
+    status_out = fields.Boolean(required=True)
     soft_delete = fields.Boolean(dump_only=True)
 
     @post_load

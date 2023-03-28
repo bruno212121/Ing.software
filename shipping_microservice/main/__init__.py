@@ -24,10 +24,14 @@ def create_app():
 
     db.init_app(app)
 
-    import main.controllers as controllers
-    api.add_resource(controllers.ArticlesOrderController, '/articlesorder', endpoint='articlesorder')
+    try:
+        from main.controllers import ShipController, ArticlesOrderController, OrderController
+        api.add_resource(ShipController, '/ships', endpoint='ships')
 
 
-    api.init_app(app)
+        api.init_app(app)
+    except Exception as e:
+        print(e)
+        pass
 
     return app
