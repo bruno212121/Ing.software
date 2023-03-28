@@ -32,4 +32,7 @@ class StockService:
         category_repository.create(category)
         return category_schema.dump(category)
     
+    def get_category(self, id):
+        return category_repository.find_by_id(id)
+    
     
