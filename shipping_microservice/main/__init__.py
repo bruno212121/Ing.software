@@ -26,7 +26,7 @@ def create_app():
 
     try:
         from main.controllers import ShipController, ArticlesOrderController, OrderController
-        api.add_resource(ShipController, '/ships', endpoint='ships')
+        api.add_resource(OrderController, '/orders', endpoint='orders')
 
 
         api.init_app(app)

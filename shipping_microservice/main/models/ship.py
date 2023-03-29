@@ -8,7 +8,7 @@ class Ship(db.Model):
     __ship_code = db.Column('ship_code', db.String(100))
     __status = db.Column('status', db.String(100))
     __soft_delete = db.Column('soft_delete', db.Boolean, default=False)
-    order = db.relationship('Order', back_populates='ships')
+    # order = db.relationship('Order', back_populates='ships')
 
     @hybrid_property
     def id(self):
