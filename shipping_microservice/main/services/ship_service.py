@@ -15,10 +15,3 @@ class ShipService:
     def get_sucursal(self, id):
         return sucursal_repository.find_by_id(id)
     
-
-    def add_order(self, order):
-        order_repository.create(order)
-        return order_schema.dump(order)
-    
-    def get_order(self, id):
-        return order_repository.find_by_id(id)
