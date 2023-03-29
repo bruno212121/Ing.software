@@ -9,12 +9,18 @@ order_schema = OrderSchema()
 class OrderService:
 
     #articlesorder
-    def add_articlesorder(self, articlesorder):
+    def add_article_order(self, articlesorder):
         articlesorder_repository.create(articlesorder)
         return articlesorder_schema.dump(articlesorder)
     
-    def get_articlesorders(self):
-        return articlesorder_repository.find_all()
+    # def get_articles_orders(self):
+    #     return articlesorder_repository.find_all()
+
+    def get_articles_order(self, id):
+        return articlesorder_repository.find_all_by_id(id)
+    
+    def get_article_order(self, id):
+        return articlesorder_repository.find_by_id(id)
     
     def edit_articlesorder(self, articlesorder):
         articlesorder_repository.update(articlesorder)

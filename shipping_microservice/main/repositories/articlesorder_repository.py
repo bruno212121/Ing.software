@@ -30,3 +30,9 @@ class ArticlesOrderRepository(Create, Update, Delete, Read):
 
     def find_all(self):
         return self.model.query.all()
+    
+    def find_by_id(self, id):
+        return self.model.query.get(id)
+    
+    def find_all_by_id(self, id):
+        return self.model.query.filter_by(order_id=id).all()
