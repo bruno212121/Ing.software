@@ -15,4 +15,3 @@ class SucursalSchema(Schema):
     @post_dump
     def unmake_sucursal(self, data, **kwargs):
         return data
-

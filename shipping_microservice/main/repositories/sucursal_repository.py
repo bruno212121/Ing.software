@@ -14,5 +14,4 @@ class SucursalRepository(Create):
     
     def find_by_id(self, id):
         return db.session.query(self.model).get(id)
-    
-
+   
