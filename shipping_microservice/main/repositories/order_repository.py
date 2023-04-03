@@ -9,7 +9,7 @@ class OrderRepository(Create,Update,Delete,Read):
     
     def create(self, objeto):
         db.session.add(objeto)
-        db.session.commit
+        db.session.commit()
         return objeto
 
     def update(self, id, data):
@@ -30,3 +30,6 @@ class OrderRepository(Create,Update,Delete,Read):
     
     def find_all(self):
         return self.model.query.all()
+    
+    def find_by_id(self, id):
+        return self.model.query.get(id)

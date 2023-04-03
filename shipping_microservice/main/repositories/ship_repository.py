@@ -31,3 +31,6 @@ class ShipRepository(Create, Update, Delete, Read):
     def find_all(self):
         return self.model.query.all()
     
+    def find_by_id(self, id):
+        return self.model.query.get(id)
+    

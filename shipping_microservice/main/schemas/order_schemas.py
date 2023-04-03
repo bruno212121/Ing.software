@@ -5,9 +5,9 @@ from main.models import OrderModel
 class OrderSchema(Schema):
     id = fields.Int(dump_only=True)
     order_code = fields.Int(required=True)
-    date = fields.DateTime(required=True)
-    sucursal = fields.Str(required=True)
-    status_out = fields.boolean(required=True)
+    date = fields.DateTime(required=False)
+    sucursal_id = fields.Int(required=True)
+    status_out = fields.Boolean(required=False)
     soft_delete = fields.Boolean(dump_only=True)
 
     @post_load

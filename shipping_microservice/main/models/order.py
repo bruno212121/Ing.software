@@ -6,7 +6,7 @@ class Order(db.Model):
     __tablename__ = 'orders'
     __id = db.Column('id', db.Integer, primary_key=True)
     __order_code = db.Column('order_code', db.String(100), nullable=False)
-    __date = db.Column('date', db.DateTime, default=datetime.datetime.utcnow)
+    __date = db.Column('date', db.DateTime, default=datetime.datetime.now())
     __sucursal_id = db.Column('sucursal_id', db.Integer, db.ForeignKey('sucursales.id'), nullable=False)
     __status_out = db.Column('status_out', db.Boolean, default=False)
     __soft_delete = db.Column('soft_delete', db.Boolean, default=False)

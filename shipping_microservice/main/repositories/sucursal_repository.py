@@ -2,7 +2,7 @@ from .. import db
 from .base_repository import Create, Update, Delete, Read
 from main.models import SucursalModel
 
-class SucursalRepository(Create, Update, Delete, Read):
+class SucursalRepository(Create):
 
     def __init__(self):
         self.model = SucursalModel
@@ -12,21 +12,6 @@ class SucursalRepository(Create, Update, Delete, Read):
         db.session.commit()
         return objeto
     
-    def update(self, id, data):
-        objeto = self.model.query.get(id)
-        for key, value in data.items():
-            setattr(objeto, key, value)
-        db.session.commit()
-        return objeto
-    
-    def delete(self, id):
-        objeto = self.model.query.get(id)
-        db.session.delete(objeto)
-        db.session.commit()
-        return objeto
-    
-    def find_one(self, objeto):
-        return self.model.query.filter_by(**objeto).first()
-    
-    def find_all(self):
-        return self.model.query.all()
+    def find_by_id(self, id):
+        return db.session.query(self.model).get(id)
+   
