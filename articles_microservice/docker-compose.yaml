@@ -1,0 +1,22 @@
+version: "3.3"
+
+services:
+
+    article_ms:
+        build: .
+        ports: 
+            - "7000:7000"
+        container_name: article_microservice
+        environment:
+            - DB_HOST=dbingsoft
+            - DB_PORT=3306
+            - DB_DATABASE=StockShipper
+            - DB_USER=root
+            - DB_PASSWORD=fenske12
+
+        networks:
+            - red
+
+networks:
+    red:
+        external: true
