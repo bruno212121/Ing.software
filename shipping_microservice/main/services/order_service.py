@@ -37,3 +37,6 @@ class OrderService:
     def get_order(self, id):
         return order_repository.find_by_id(id)
     
+    def get_orders(self):
+        return order_repository.find_all()
+    

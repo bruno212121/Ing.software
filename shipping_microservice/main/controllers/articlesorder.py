@@ -1,16 +1,16 @@
 from flask_restful import Resource
 from flask import request
 from main.schemas import ArticlesOrderSchema
-from main.services import StockService
+from main.services import OrderService
 
 articlesorder_schema = ArticlesOrderSchema()
-stock_service = StockService()
+order_service = OrderService()
 
 class ArticlesOrderController(Resource):
 
     def post(self):
-        articles_order = articlesorder_schema.load(request.get_json())
-        # return articlesorder_schema.dump(stock_service.add_articlesorder(articlesorder))
+        article_order = articlesorder_schema.load(request.get_json())
+        return articlesorder_schema.dump(order_service.add_article_order(article_order))
     
     def get(self): ...
         # return articlesorder_schema.dump(stock_service.get_articlesorders(), many=True)

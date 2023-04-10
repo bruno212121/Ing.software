@@ -10,6 +10,8 @@ class ArticlesOrder(db.Model):
     __article_id = db.Column('article_id', db.Integer, nullable=False)              # TODO: como no puedo hacer que sea FK porque article no exsite en este microservicio es decir esta en otro, solo guardo el id del articulo por ahora...
     __ammount_article = db.Column('ammount_article', db.Integer, nullable=False)
     __soft_delete = db.Column('soft_delete', db.Boolean, default=False)
+    order = db.relationship('Order', back_populates='articles_orders')
+
 
     # TODO: esto supuestamente lo arreglaba, pero no anduvo nada :(
     # __table_args__ = {'schema': f'{os.getenv("DB_DATABASE")}'}
