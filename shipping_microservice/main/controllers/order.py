@@ -14,3 +14,8 @@ class OrderController(Resource):
     
     def get(self):
         return order_schema.dump(order_service.get_orders(), many=True)
+    
+class ArticlesController(Resource):
+
+    def get(self):
+        return order_service.get_articles()

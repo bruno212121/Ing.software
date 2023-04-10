@@ -30,7 +30,7 @@ class ShipService:
         # genereta ship code with random string and numbers with 10 length
         import random
         import string
-            # Se define una cadena con letras y números
+        # Se define una cadena con letras y números
         caracteres = string.ascii_letters + string.digits
     
         # Se generan 10 caracteres aleatorios a partir de la cadena definida
