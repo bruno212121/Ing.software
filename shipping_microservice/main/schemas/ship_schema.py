@@ -11,3 +11,4 @@ class ShipSchema(Schema):
     @post_load
     def make_ship(self, data, **kwargs):
         return ShipModel(**data)
+
