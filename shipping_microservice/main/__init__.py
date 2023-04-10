@@ -32,6 +32,7 @@ def create_app():
         api.add_resource(OrderController, '/orders', endpoint='orders')
         api.add_resource(ArticlesOrderController, '/articlesorders', endpoint='articlesorders')
         api.add_resource(SucursalController, '/sucursales', endpoint='sucursales')
+        api.add_resource(ShipController, '/ships', endpoint='ships')
         api.init_app(app)
 
     except Exception as e:

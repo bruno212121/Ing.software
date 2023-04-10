@@ -6,7 +6,7 @@ class Ship(db.Model):
     __id = db.Column('id', db.Integer, primary_key=True)
     __id_order = db.Column('id_order', db.Integer, db.ForeignKey('orders.id'), nullable=False)
     __ship_code = db.Column('ship_code', db.String(100))
-    __status = db.Column('status', db.String(100))
+    __status = db.Column('status', db.String(100), default='pending')
     __soft_delete = db.Column('soft_delete', db.Boolean, default=False)
     # order = db.relationship('Order', back_populates='ships')
 
