@@ -11,6 +11,7 @@ class Order(db.Model):
     __status_out = db.Column('status_out', db.Boolean, default=False)
     __soft_delete = db.Column('soft_delete', db.Boolean, default=False)
     sucursal = db.relationship('Sucursal', back_populates='orders')
+    articles_orders = db.relationship('ArticlesOrder', back_populates='order')
 
     @hybrid_property
     def id(self):

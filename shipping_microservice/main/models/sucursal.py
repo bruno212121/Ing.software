@@ -5,7 +5,7 @@ class Sucursal(db.Model):
     __tablename__ = 'sucursales'
     __id = db.Column('id', db.Integer, primary_key=True)
     __name = db.Column('name', db.String(100))
-    __admin = db.Column('admin', db.Boolean)
+    __admin = db.Column('admin', db.Boolean, default=False)
     __soft_delete = db.Column('soft_delete', db.Boolean)
     orders = db.relationship('Order', back_populates='sucursal')
 

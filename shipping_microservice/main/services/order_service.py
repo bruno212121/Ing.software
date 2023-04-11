@@ -1,5 +1,6 @@
 from main.schemas import ArticlesOrderSchema, OrderSchema
 from main.repositories import ArticlesOrderRepository, OrderRepository
+import requests, os
 
 articlesorder_schema = ArticlesOrderSchema()
 articlesorder_repository = ArticlesOrderRepository()
@@ -36,4 +37,12 @@ class OrderService:
     
     def get_order(self, id):
         return order_repository.find_by_id(id)
+    
+    def get_orders(self):
+        return order_repository.find_all()
+    
+    def get_articles(self):
+        print(os.getenv("ARTICLES_API"), 'URL API')
+        articles = requests.get(f'{os.getenv("ARTICLES_API")}/articles', headers={'Content-Type': 'application/json'})
+        return articles.json()
     

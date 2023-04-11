@@ -19,9 +19,25 @@ class ShipService:
         return sucursal_repository.find_by_id(id)
     
     def add_ship(self, ship):
+        ship.ship_code = self.generate_ship_code()
         ship_repository.create(ship)
         return ship_schema.dump(ship)
     
     def get_ship(self, id):
         return ship_repository.find_by_id(id)
+    
+    def generate_ship_code(self) -> str:
+        # genereta ship code with random string and numbers with 10 length
+        import random
+        import string
+        # Se define una cadena con letras y números
+        caracteres = string.ascii_letters + string.digits
+    
+        # Se generan 10 caracteres aleatorios a partir de la cadena definida
+        codigo = ''.join(random.choice(caracteres) for i in range(20))
+
+        # convertir a mayusculas
+        codigo = codigo.upper()
+    
+        return codigo
     

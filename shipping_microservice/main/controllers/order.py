@@ -1,17 +1,21 @@
 from flask_restful import Resource
 from flask import request
 from main.schemas import OrderSchema
-from main.services import ShipService
+from main.services import OrderService
 
 order_schema = OrderSchema()
-ship_service = ShipService() 
+order_service = OrderService() 
 
 class OrderController(Resource):
 
     def post(self):
         order = order_schema.load(request.get_json())
-        return order_schema.dump(ship_service.add_order(order))
+        return order_schema.dump(order_service.add_order(order))
     
     def get(self):
-        pass #Falta hacer el servicio shipping_service
-        #return order_schema.dump(shipping_service.get_orders(), many=True)
+        return order_schema.dump(order_service.get_orders(), many=True)
+    
+class ArticlesController(Resource):
+
+    def get(self):
+        return order_service.get_articles()
