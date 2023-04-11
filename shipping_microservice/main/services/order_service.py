@@ -42,7 +42,7 @@ class OrderService:
         return order_repository.find_all()
     
     def get_articles(self):
-        # articles = requests.get(os.getenv('ARTICLES_API') + '/articles')
+        print(os.getenv("ARTICLES_API"), 'URL API')
         articles = requests.get(f'{os.getenv("ARTICLES_API")}/articles', headers={'Content-Type': 'application/json'})
         return articles.json()
     
