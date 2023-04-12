@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 import mysql.connector
 from flask_restful import Api
+from flask_cors import CORS
 
 api = Api()
 db = SQLAlchemy()
@@ -30,7 +31,10 @@ def create_app():
 
     db.init_app(app)
 
-    
+    #Permitir solicitudes de otros origenes
+    cors = CORS(app, support_credentials=True)
+    app.config['CORS_HEADERS'] = 'Content-Type'
+    cors = CORS(app, resources={r"*": {"origins": "*"}})
 
     try:
 
