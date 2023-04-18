@@ -1,0 +1,30 @@
+version: '2.9'
+
+services:
+
+  traefik: 
+    image: traefik:v2.1
+    container_name: traefik_proxy 
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik=true" 
+      
+    volumes: 
+      - /var/run/docker.sock:/var/run/docker.sock # Para que traefik puede escuchar los eventos de docker
+      - ./config/traefik.yml:/etc/traefik/traefik.yml # Configuración de traefik
+      - ./config/config.yml:/etc/traefik/config.yml # Configuración de traefik
+      - ./certs:/etc/traefik/certs # Certificados de traefik
+    networks:
+      - red
+
+networks:
+  red:
+    external: true

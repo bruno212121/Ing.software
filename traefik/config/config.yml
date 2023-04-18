@@ -1,0 +1,18 @@
+http:
+  routers:
+    traefik:
+      rule: "Host(`traefik.order.localhost`)"
+      service: "api@internal" 
+      tls:
+        domains:
+          - main: "order.localhost"
+            sans:
+              - "*.order.localhost"
+          - main: "order.local"
+            sans:
+              - "*.order.local"
+
+tls:
+  certificates:
+    - certFile: "/etc/certs/local-cert.pem"
+      keyFile: "/etc/certs/local-key.pem"
