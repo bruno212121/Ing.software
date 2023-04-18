@@ -4,9 +4,9 @@ services:
 
     article_ms:
         build: .
-        ports: 
-            - "7000:7000"
-        container_name: article_microservice
+        # ports: 
+        #     - "7000:7000"
+        # container_name: article_microservice
         environment:
             - DB_HOST=dbingsoft
             - DB_PORT=3306
@@ -14,6 +14,11 @@ services:
             - DB_USER=root
             - DB_PASSWORD=fenske12
 
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.article.rule=Host(`article.order.com`)"
+            - "traefik.http.routers.article.loadbalancer.server.port=7000"
+            
         networks:
             - red
 

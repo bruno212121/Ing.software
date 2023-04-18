@@ -3,10 +3,10 @@ version: "3.3"
 services:
   
   shipping:
-    container_name: shipping_microservice
+    # container_name: shipping_microservice
     build: .
-    ports:
-      - "6000:7000"
+    # ports:
+    #   - "6000:7000"
     environment:
      - DB_HOST=dbingsoft
      - DB_USER=root
@@ -14,7 +14,12 @@ services:
      - DB_PORT=3306
      - DB_DATABASE=StockShipper
      - ARTICLES_API=http://article_microservice:7000
-
+    
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.shipping.rule=Host(`shipping.order.com`)"
+      - "traefik.http.routers.shipping.loadbalancer.server.port=7000"
+      
     networks:
       - red
 
