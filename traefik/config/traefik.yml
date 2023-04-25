@@ -2,11 +2,17 @@ global:
   sendAnonymousUsage: false
 
 entryPoints: 
-  web:
+  http:
     address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: https
+          scheme: https
 
-  websecure:
+  https:
     address: ":443"
+
 
 api: #ocultando los servicios 
   insecure: true
@@ -18,9 +24,7 @@ log:
   level: INFO  
   format: common  
   
-
 providers: 
-
   docker:
     endpoint: "unix:///var/run/docker.sock" 
     exposedByDefault: false 

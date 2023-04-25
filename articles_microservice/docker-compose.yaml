@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
 
-    article_ms:
+    article:
         build: .
         # ports: 
         #     - "7000:7000"
@@ -16,8 +16,10 @@ services:
 
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.article.rule=Host(`article.order.com`)"
-            - "traefik.http.routers.article.loadbalancer.server.port=7000"
+            - "traefik.http.routers.article.rule=Host(`article.order.localhost`)"
+            - "traefik.http.routers.article.tls=true"
+            - "traefik.http.services.article.loadbalancer.server.port=7000"
+            - "traefik.docker.network=red"
             
         networks:
             - red

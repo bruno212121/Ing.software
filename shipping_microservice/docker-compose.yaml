@@ -13,12 +13,14 @@ services:
      - DB_PASSWORD=fenske12
      - DB_PORT=3306
      - DB_DATABASE=StockShipper
-     - ARTICLES_API=http://article_microservice:7000
+     - ARTICLES_API=https://article.order.localhost
     
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.shipping.rule=Host(`shipping.order.com`)"
-      - "traefik.http.routers.shipping.loadbalancer.server.port=7000"
+      - "traefik.http.routers.shipping.rule=Host(`shipping.order.localhost`)"
+      - "traefik.http.routers.shipping.tls=true"
+      - "traefik.http.services.shipping.loadbalancer.server.port=7000"
+      - "traefik.docker.network=red"
       
     networks:
       - red

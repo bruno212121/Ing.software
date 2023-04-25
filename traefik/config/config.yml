@@ -4,6 +4,8 @@ http:
       rule: "Host(`traefik.order.localhost`)"
       service: "api@internal" 
       tls:
+        # options: "order.localhost"
+        # certResolver: "default"
         domains:
           - main: "order.localhost"
             sans:
@@ -14,5 +16,5 @@ http:
 
 tls:
   certificates:
-    - certFile: "/etc/certs/local-cert.pem"
-      keyFile: "/etc/certs/local-key.pem"
+    - certFile: "/etc/traefik/certs/local-cert.pem"
+      keyFile: "/etc/traefik/certs/local-key.pem"
