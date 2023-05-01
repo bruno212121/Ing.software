@@ -2,6 +2,8 @@ from flask_restful import Resource
 from flask import request
 from main.schemas import OrderSchema
 from main.services import OrderService
+from main import cache
+
 
 order_schema = OrderSchema()
 order_service = OrderService() 
