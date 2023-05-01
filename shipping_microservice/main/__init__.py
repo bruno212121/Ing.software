@@ -2,16 +2,26 @@ import os
 from flask import Flask
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
-import mysql.connector
 from flask_restful import Api
 from flask_cors import CORS
+from flask_caching import Cache
 
 api = Api()
 db = SQLAlchemy()
+cache = Cache()
 
 def create_app():
     app = Flask(__name__)
     load_dotenv()
+
+
+ 
+    app.config['CACHE_TYPE'] = os.getenv("CACHE_TYPE")
+    app.config['CACHE_DEFAULT_TIMEOUT'] = os.getenv("CACHE_DEFAULT_TIMEOUT")
+    app.config['CACHE_REDIS_PASSWORD'] = os.getenv("CACHE_REDIS_PASSWORD")
+    app.config['CACHE_REDIS_URL'] = f'redis://{os.getenv("CACHE_REDIS_HOST")}:{os.getenv("CACHE_REDIS_PORT")}/{os.getenv("CACHE_REDIS_DB")}'
+
+    cache.init_app(app)
 
     HOST = os.getenv("DB_HOST")
     USER = os.getenv("DB_USER")
