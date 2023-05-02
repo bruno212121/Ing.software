@@ -5,10 +5,12 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
 from flask_cors import CORS
 from flask_caching import Cache
+import pybreaker
 
 api = Api()
 db = SQLAlchemy()
 cache = Cache()
+db_breaker = pybreaker.CircuitBreaker(fail_max=5, reset_timeout=60)
 
 def create_app():
     app = Flask(__name__)
