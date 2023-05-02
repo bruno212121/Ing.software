@@ -63,9 +63,9 @@ class OrderService:
     @db_breaker
     @cache.cached(timeout=500)
     def get_articles(self):
-        print(os.getenv("ARTICLES_API"), 'URL API')
+        print(os.getenv("ARTICLE_API"), 'URL API')
         try:
-            articles = requests.get(f'{os.getenv("ARTICLES_API")}/articles', headers={'Content-Type': 'application/json'}, verify=False)
+            articles = requests.get(f'{os.getenv("ARTICLE_API")}/articles', headers={'Content-Type': 'application/json'}, verify=False)
         except Exception as e:
             print(e)
             articles = {'error': 'No se pudo conectar con el servicio de articulos'}

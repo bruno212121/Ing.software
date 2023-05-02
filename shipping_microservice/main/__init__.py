@@ -31,6 +31,7 @@ def create_app():
     PORT = os.getenv("DB_PORT")
     DB_NAME = os.getenv("DB_DATABASE")
     VIRTUAL_HOST = os.getenv("VIRTUAL_HOST")
+    ARTICLE_API = os.getenv("ARTICLE_API")
 
     print(f'HOST: {HOST}')
     print(f'USER: {USER}')
@@ -38,6 +39,8 @@ def create_app():
     print(f'PORT: {PORT}')
     print(f'DB_NAME: {DB_NAME}')
     print(f'VIRTUAL_HOST: {VIRTUAL_HOST}')
+    print(f'ARTICLE_API: {ARTICLE_API}')
+
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['TESTING'] = True

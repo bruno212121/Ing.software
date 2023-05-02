@@ -11,8 +11,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080" 
-
+      - "8080:8080"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik=true" 
@@ -23,7 +22,11 @@ services:
       - ./config/config.yml:/etc/traefik/config.yml:ro # Configuración de traefik
       - ./certs:/etc/traefik/certs:ro # Certificados de traefik
     networks:
-      - red
+      red: 
+        aliases:
+          - article.order.localhost
+          - shipping.order.localhost
+        
 
 networks:
   red:
