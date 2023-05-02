@@ -9,7 +9,7 @@ ENV DB_USER =
 ENV DB_PASSWORD =
 ENV DB_NAME =
 ENV DB_PORT =
-ENV ARTICLES_API =
+# ENV ARTICLES_API =
 
 #crea usuario
 RUN useradd --create-home --home-dir /home/flaskapp flaskapp
