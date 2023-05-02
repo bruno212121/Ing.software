@@ -1,8 +1,13 @@
 from main.schemas import ArticlesOrderSchema, OrderSchema
 from main.repositories import ArticlesOrderRepository, OrderRepository
 import requests, os
+from flask_cors import cross_origin
+from flask import Blueprint, request
+import random, time
 from main import cache
 from main import db_breaker
+
+order_api = Blueprint('order_api', __name__)
 
 articlesorder_schema = ArticlesOrderSchema()
 articlesorder_repository = ArticlesOrderRepository()
@@ -59,6 +64,30 @@ class OrderService:
     @cache.cached(timeout=500)
     def get_articles(self):
         print(os.getenv("ARTICLES_API"), 'URL API')
-        articles = requests.get(f'{os.getenv("ARTICLES_API")}/articles', headers={'Content-Type': 'application/json'})
+        try:
+            articles = requests.get(f'{os.getenv("ARTICLES_API")}/articles', headers={'Content-Type': 'application/json'}, verify=False)
+        except Exception as e:
+            print(e)
+            articles = {'error': 'No se pudo conectar con el servicio de articulos'}
+            return articles
         return articles.json()
     
+@order_api.route('/articulos', methods=['GET'])
+@cross_origin(supports_credentials=True)
+def get_articles():
+    headers = {'Origin': 'http://shipping.order.localhost'}
+    response = requests.get('http://article.order.localhost/articles', headers=headers)
+    return response.json()
+
+@order_api.route('/proof', methods=['GET'])
+def proof():
+    # codigo = request.get_json()['codigo']
+    codigos = [404, 500, "latencia"]
+    codigo = random.choice(codigos)
+    if codigo == 404:
+        return "No se encontró el recurso", 404
+    elif codigo == 500:
+        return "Error interno del servidor", 500
+    elif codigo == "latencia":
+        time.sleep(10)
+        return "Error latencia del servidor", 500

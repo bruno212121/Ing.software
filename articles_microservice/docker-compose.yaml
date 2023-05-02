@@ -13,6 +13,7 @@ services:
             - DB_DATABASE=StockShipper
             - DB_USER=root
             - DB_PASSWORD=fenske12
+            - VIRTUAL_HOST=article.order.localhost
 
             - CACHE_TYPE=redis
             - CACHE_REDIS_HOST=redis
@@ -25,6 +26,10 @@ services:
             - "traefik.http.routers.article.tls=true"
             - "traefik.http.services.article.loadbalancer.server.port=7000"
             - "traefik.docker.network=red"
+            
+            - "traefik.http.services.article.loadbalancer.server.scheme=http"
+        # dns_search:
+        #     - traefik.order.localhost
             
         networks:
             - red

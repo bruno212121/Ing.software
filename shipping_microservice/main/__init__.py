@@ -30,12 +30,14 @@ def create_app():
     PASSWORD = os.getenv("DB_PASSWORD")
     PORT = os.getenv("DB_PORT")
     DB_NAME = os.getenv("DB_DATABASE")
+    VIRTUAL_HOST = os.getenv("VIRTUAL_HOST")
 
     print(f'HOST: {HOST}')
     print(f'USER: {USER}')
     print(f'PASSWORD: {PASSWORD}')
     print(f'PORT: {PORT}')
     print(f'DB_NAME: {DB_NAME}')
+    print(f'VIRTUAL_HOST: {VIRTUAL_HOST}')
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['TESTING'] = True
@@ -57,6 +59,9 @@ def create_app():
         api.add_resource(ArticlesController, '/articles', endpoint='articles')
         api.add_resource(ShipController, '/ships', endpoint='ships')
         api.init_app(app)
+
+        from main.services import order_api
+        app.register_blueprint(order_api, url_prefix='/order_api')
 
     except Exception as e:
         print(e)

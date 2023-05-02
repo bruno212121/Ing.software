@@ -1,7 +1,6 @@
 version: "3.3"
 
-services:
-  
+services:  
   shipping:
     # container_name: shipping_microservice
     build: .
@@ -13,6 +12,7 @@ services:
      - DB_PASSWORD=fenske12
      - DB_PORT=3306
      - DB_DATABASE=StockShipper
+     - VIRTUAL_HOST=shipping.order.localhost
      - ARTICLES_API=https://article.order.localhost
 
      - CACHE_TYPE=redis
@@ -26,6 +26,7 @@ services:
       - "traefik.http.routers.shipping.tls=true"
       - "traefik.http.services.shipping.loadbalancer.server.port=7000"
       - "traefik.docker.network=red"
+      - "traefik.http.services.shipping.loadbalancer.server.scheme=http"
       
     networks:
       - red
