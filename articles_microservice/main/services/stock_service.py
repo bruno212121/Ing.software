@@ -1,6 +1,7 @@
 from main.schemas import ArticleSchema, CategorySchema
 from main.repositories import ArticleRepository, CategoryRepository
 from main import db_breaker
+from main import cache
 
 article_schema = ArticleSchema()
 article_repository = ArticleRepository()
@@ -23,10 +24,12 @@ class StockService:
         return article_schema.dump(article)
     
     @db_breaker
+    @cache.cached(timeout=500)
     def get_articles(self):
         return article_repository.find_all()
     
     @db_breaker
+    @cache.cached(timeout=500)
     def get_article(self, id):
         return article_repository.find_by_id(id)
     
@@ -52,6 +55,7 @@ class StockService:
         return category_schema.dump(category)
     
     @db_breaker
+    @cache.cached(timeout=500)
     def get_category(self, id):
         return category_repository.find_by_id(id)
     

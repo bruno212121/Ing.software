@@ -2,7 +2,6 @@ from flask_restful import Resource
 from flask import request, jsonify
 from main.schemas import ArticleSchema
 from main.services import StockService
-from main import cache
 import pybreaker
 
 
@@ -21,7 +20,6 @@ class ArticlesController(Resource):
             #return jsonify({"error": "Circuit breaker is open"}), 500
             #preguntar al profe problema con el jsonify
             
-    @cache.cached(timeout=50)
     def get(self):
         try:
             #stock_service.faulty_method()
