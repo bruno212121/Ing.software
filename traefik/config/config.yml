@@ -13,6 +13,14 @@ http:
           - main: "order.local"
             sans:
               - "*.order.local"
+  # services:
+  #     aricle-service:
+  #       loadBalancer:
+  #         servers:
+  #           - url: "https://article.order.localhost"
+
+
+
 
 tls:
   certificates:

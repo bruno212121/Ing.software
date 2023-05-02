@@ -11,6 +11,11 @@ ship_schema = ShipSchema()
 
 
 class ShipService:
+    
+    # test para probar el circuit si anda o no
+    # @db_breaker
+    # def faulty_method(self):
+    #     raise Exception("Simulated database error")
 
     @db_breaker
     def add_sucursal(self, sucursal):
