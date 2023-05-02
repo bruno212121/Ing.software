@@ -1,34 +1,35 @@
 version: "3.3"
 
-services:
+services:  
+  shipping:
+    # container_name: shipping_microservice
+    build: .
+    # ports:
+    #   - "6000:7000"
+    environment:
+     - DB_HOST=dbingsoft
+     - DB_USER=root
+     - DB_PASSWORD=fenske12
+     - DB_PORT=3306
+     - DB_DATABASE=StockShipper
+     - VIRTUAL_HOST=shipping.order.localhost
+     - ARTICLES_API=https://article.order.localhost
 
-    shipping:
-        build: .
-        # ports: 
-        #     - "7000:7000"
-        # container_name: article_microservice
-        environment:
-            - DB_HOST=dbingsoft
-            - DB_PORT=3306
-            - DB_DATABASE=StockShipper
-            - DB_USER=root
-            - DB_PASSWORD=fenske12
-            - VIRTUAL_HOST=shipping.order.localhost
-            - ARTICLE_API=https://article.order.localhost
-
-        labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.shipping.rule=Host(`shipping.order.localhost`)"
-            - "traefik.http.routers.shipping.tls=true"
-            - "traefik.http.services.shipping.loadbalancer.server.port=7000"
-            - "traefik.docker.network=red"
-
-            - "traefik.http.services.shipping.loadbalancer.server.scheme=http"
-        # dns_search:
-        #     - traefik.order.localhost
-            
-        networks:
-            - red
+     - CACHE_TYPE=redis
+     - CACHE_REDIS_HOST=redis
+     - CACHE_REDIS_PORT=6379
+     - CACHE_REDIS_DB=0
+    
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.shipping.rule=Host(`shipping.order.localhost`)"
+      - "traefik.http.routers.shipping.tls=true"
+      - "traefik.http.services.shipping.loadbalancer.server.port=7000"
+      - "traefik.docker.network=red"
+      - "traefik.http.services.shipping.loadbalancer.server.scheme=http"
+      
+    networks:
+      - red
 
 networks:
     red:
