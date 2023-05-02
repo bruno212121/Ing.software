@@ -1,6 +1,7 @@
 from main.repositories import SucursalRepository, OrderRepository, ShipRepository
 from main.schemas import SucursalSchema, OrderSchema, ShipSchema
 from main import db_breaker
+from main import cache
 
 sucursal_repository = SucursalRepository()
 order_repository = OrderRepository()
@@ -23,6 +24,7 @@ class ShipService:
         return sucursal_schema.dump(sucursal)
     
     @db_breaker
+    @cache.cached(timeout=500)
     def get_sucursal(self, id):
         return sucursal_repository.find_by_id(id)
     
@@ -33,6 +35,7 @@ class ShipService:
         return ship_schema.dump(ship)
     
     @db_breaker
+    @cache.cached(timeout=500)
     def get_ship(self, id):
         return ship_repository.find_by_id(id)
     

@@ -1,6 +1,7 @@
 from main.schemas import ArticlesOrderSchema, OrderSchema
 from main.repositories import ArticlesOrderRepository, OrderRepository
 import requests, os
+from main import cache
 from main import db_breaker
 
 articlesorder_schema = ArticlesOrderSchema()
@@ -18,11 +19,14 @@ class OrderService:
     
     # def get_articles_orders(self):
     #     return articlesorder_repository.find_all()
+
     @db_breaker
+    @cache.cached(timeout=500)
     def get_articles_order(self, id):
         return articlesorder_repository.find_all_by_id(id)
     
     @db_breaker
+    @cache.cached(timeout=500)
     def get_article_order(self, id):
         return articlesorder_repository.find_by_id(id)
     
@@ -42,14 +46,17 @@ class OrderService:
         return order_schema.dump(order)
     
     @db_breaker
+    @cache.cached(timeout=500)
     def get_order(self, id):
         return order_repository.find_by_id(id)
     
     @db_breaker
+    @cache.cached(timeout=500)
     def get_orders(self):
         return order_repository.find_all()
     
     @db_breaker
+    @cache.cached(timeout=500)
     def get_articles(self):
         print(os.getenv("ARTICLES_API"), 'URL API')
         articles = requests.get(f'{os.getenv("ARTICLES_API")}/articles', headers={'Content-Type': 'application/json'})

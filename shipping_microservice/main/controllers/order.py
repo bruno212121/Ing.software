@@ -3,7 +3,6 @@ from flask import request
 from flask import jsonify
 from main.schemas import OrderSchema
 from main.services import OrderService
-from main import cache
 import pybreaker
 
 order_schema = OrderSchema()
@@ -20,7 +19,7 @@ class OrderController(Resource):
             #return jsonify({"error": "Circuit breaker is open"}), 500
             #preguntar al profe problema con el jsonify
         
-    @cache.cached(timeout=500000)
+    
     def get(self):
         try:
             return order_schema.dump(order_service.get_orders(), many=True)
