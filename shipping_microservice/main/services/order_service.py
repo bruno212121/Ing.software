@@ -4,6 +4,8 @@ import requests, os
 from flask_cors import cross_origin
 from flask import Blueprint, request
 import random, time
+from main import cache
+from main import db_breaker
 
 order_api = Blueprint('order_api', __name__)
 
@@ -15,6 +17,7 @@ order_schema = OrderSchema()
 class OrderService:
 
     #articlesorder
+    @db_breaker
     def add_article_order(self, articlesorder):
         articlesorder_repository.create(articlesorder)
         return articlesorder_schema.dump(articlesorder)
@@ -22,30 +25,43 @@ class OrderService:
     # def get_articles_orders(self):
     #     return articlesorder_repository.find_all()
 
+    @db_breaker
+    @cache.cached(timeout=500)
     def get_articles_order(self, id):
         return articlesorder_repository.find_all_by_id(id)
     
+    @db_breaker
+    @cache.cached(timeout=500)
     def get_article_order(self, id):
         return articlesorder_repository.find_by_id(id)
     
+    @db_breaker
     def edit_articlesorder(self, articlesorder):
         articlesorder_repository.update(articlesorder)
         return articlesorder_schema.dump(articlesorder)
     
+    @db_breaker
     def delete_articlesorder(self, articlesorder):
         articlesorder_repository.delete(articlesorder)
         return articlesorder_schema.dump(articlesorder)
     
+    @db_breaker
     def add_order(self, order):
         order_repository.create(order)
         return order_schema.dump(order)
     
+    @db_breaker
+    @cache.cached(timeout=500)
     def get_order(self, id):
         return order_repository.find_by_id(id)
     
+    @db_breaker
+    @cache.cached(timeout=500)
     def get_orders(self):
         return order_repository.find_all()
     
+    @db_breaker
+    @cache.cached(timeout=500)
     def get_articles(self):
         print(os.getenv("ARTICLE_API"), 'URL API')
         try:

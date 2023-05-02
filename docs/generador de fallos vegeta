@@ -1,0 +1,2 @@
+echo "GET https://article.order.localhost/articles" | ./vegeta attack -duration=30s -insecure | ./vegeta report
+
