@@ -27,6 +27,8 @@ services:
       - "traefik.http.services.shipping.loadbalancer.server.port=7000"
       - "traefik.docker.network=red"
       - "traefik.http.services.shipping.loadbalancer.server.scheme=http"
+
+      - "traefik.http.middlewares.latency-check.circuitbreaker.expression=LatencyAtQuantileMS(50.0) > 100"
       
     networks:
       - red

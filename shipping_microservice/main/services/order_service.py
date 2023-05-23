@@ -79,11 +79,15 @@ def get_articles():
     response = requests.get('http://article.order.localhost/articles', headers=headers)
     return response.json()
 
+@db_breaker
 @order_api.route('/proof', methods=['GET'])
 def proof():
     # codigo = request.get_json()['codigo']
+
+    seed = random.randint(1, 100)
     codigos = [404, 500, "latencia"]
-    codigo = random.choice(codigos)
+    # codigo = random.choice(codigos)
+    codigo = codigos[seed % 3]
     if codigo == 404:
         return "No se encontró el recurso", 404
     elif codigo == 500:
