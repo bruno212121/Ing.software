@@ -1,0 +1,20 @@
+version: '3.3'
+
+services:
+  consul:
+    image: consul:1.15
+    restart: always   
+    volumes:
+     - ./config:/consul/config
+     - ./data:/consul/data:rw #rw: read-write
+    ports:
+      - 8500:8500
+      - 8300:8300
+    networks: 
+      - red
+    command: agent -bind 0.0.0.0 -disable-host-node-id=true #'agent': Script que espera a que otro este andando para correr.
+    #* depend_on: no se usa porque solo se fija que este corriendo, si se levanta despues no lo vuelve a checkear.
+
+networks:
+    red:
+      external: true
