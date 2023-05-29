@@ -27,6 +27,8 @@ services:
             - "traefik.http.services.article.loadbalancer.server.port=7000"
             - "traefik.docker.network=red"
             
+            - "traefik.http.middlewares.latency-check.circuitbreaker.expression=LatencyAtQuantileMS(50.0) > 100"
+
             - "traefik.http.services.article.loadbalancer.server.scheme=http"
         # dns_search:
         #     - traefik.order.localhost
