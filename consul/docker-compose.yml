@@ -7,12 +7,20 @@ services:
     volumes:
      - ./config:/consul/config
      - ./data:/consul/data:rw #rw: read-write
+     - ./ca:/consul/ca:ro #ro: read-only
     ports:
       - 8500:8500
       - 8300:8300
+      - 8600:8600/udp
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.consul.rule=Host(`consul.order.localhost`)"
+      - "traefik.http.routers.consul.tls=true"
+      - "traefik.http.services.consul.loadbalancer.server.port=8500"
+    command: agent -bind 0.0.0.0 -disable-host-node-id=true #'agent': Script que espera a que otro este andando para correr.
+    # command: "-server -bootstrap -ui-dir /ui"
     networks: 
       - red
-    command: agent -bind 0.0.0.0 -disable-host-node-id=true #'agent': Script que espera a que otro este andando para correr.
     #* depend_on: no se usa porque solo se fija que este corriendo, si se levanta despues no lo vuelve a checkear.
 
 networks:

@@ -11,6 +11,14 @@ app = create_app()
 
 app.app_context().push()
 
+@app.route('/health', methods=['GET'])
+def health_check():
+    # Verificar aquí la salud de tu aplicación
+    # Puedes agregar lógica adicional, como verificar conexiones a la base de datos u otros servicios
+
+    # Devolver código de estado 200 si la aplicación está saludable
+    return 'App working correctly', 200
+
 if __name__ == '__main__':
     db.drop_all()
     db.create_all()
