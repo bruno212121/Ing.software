@@ -33,3 +33,12 @@ providers:
   file:
     filename: /etc/traefik/config.yml
     watch: true
+
+  consulCatalog:
+    refreshInterval: 10s
+    connectAware: true
+    serviceName: "traefik"
+    prefix: traefik
+    exposedByDefault: false 
+    endpoint: 
+      address: "consul:8500"

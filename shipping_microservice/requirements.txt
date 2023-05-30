@@ -11,4 +11,4 @@ flask-cors==3.0.10
 redis==3.5.3
 flask-caching==2.0.2
 pybreaker==0.7.0
-flaskconsulate
+py-consulate-ms==1.0.0
