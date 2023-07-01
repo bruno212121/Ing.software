@@ -7,32 +7,32 @@ services:
         # ports: 
         #     - "7000:7000"
         # container_name: article_microservice
-        environment:
-            - DB_HOST=dbingsoft
-            - DB_PORT=3306
-            - DB_DATABASE=StockShipper
-            - DB_USER=root
-            - DB_PASSWORD=fenske12
-            - VIRTUAL_HOST=article.order.localhost
+        # environment:
+        #     - DB_HOST=dbinhttps://articles.order.localhost/gsoft
+        #     - DB_PORT=3306
+        #     - DB_DATABASE=StockShipper
+        #     - DB_USER=root
+        #     - DB_PASSWORD=fenske12
+        #     - VIRTUAL_HOST=article.order.localhost
 
-            - CACHE_TYPE=redis
-            - CACHE_REDIS_HOST=redis
-            - CACHE_REDIS_PORT=6379
-            - CACHE_REDIS_DB=0
-
-        labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.article.rule=Host(`article.order.localhost`)"
-            - "traefik.http.routers.article.tls=true"
-            - "traefik.http.services.article.loadbalancer.server.port=7000"
-            - "traefik.docker.network=red"
+        #     - CACHE_TYPE=redis
+        #     - CACHE_REDIS_HOST=redis
+        #     - CACHE_REDIS_PORT=6379
+        #     - CACHE_REDIS_DB=0
+        
+        # labels:
+        #     - "traefik.enable=true"
+        #     - "traefik.http.routers.article.rule=Host(`article.order.localhost`)"
+        #     - "traefik.http.routers.article.tls=true"
+        #     - "traefik.http.services.article.loadbalancer.server.port=7000"
+        #     - "traefik.docker.network=red"
             
-            - "traefik.http.middlewares.latency-check.circuitbreaker.expression=LatencyAtQuantileMS(50.0) > 100"
+        #     - "traefik.http.middlewares.latency-check.circuitbreaker.expression=LatencyAtQuantileMS(50.0) > 100"
 
-            - "traefik.http.services.article.loadbalancer.server.scheme=http"
+        #     - "traefik.http.services.article.loadbalancer.server.scheme=http"
         # dns_search:
         #     - traefik.order.localhost
-            
+        
         networks:
             - red
 
