@@ -5,8 +5,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
 from flask_cors import CORS
 from flask_caching import Cache
+from consulate import Consul
 import pybreaker
+import socket
 
+consul= Consul(host="consul")
 api = Api()
 db = SQLAlchemy()
 cache = Cache()
@@ -16,22 +19,37 @@ def create_app():
     app = Flask(__name__)
     load_dotenv()
 
+    serviceip = socket.gethostbyname(socket.gethostname())
+    consul.agent.service.register(
+        name="shipping",
+        service_id="shipping",
+        address=serviceip,
+        tags=["traefik.enable=true"
+      , "traefik.http.routers.shipping.rule=Host(`shipping.order.localhost`)"
+      , "traefik.http.routers.shipping.tls=true"
+      , "traefik.http.services.shipping.loadbalancer.server.port=7000"
+      , "traefik.docker.network=red"
+      , "traefik.http.services.shipping.loadbalancer.server.scheme=http"
 
+      , "traefik.http.middlewares.latency-check.circuitbreaker.expression=LatencyAtQuantileMS(50.0) > 100"]
+    )
  
-    app.config['CACHE_TYPE'] = os.getenv("CACHE_TYPE")
-    app.config['CACHE_DEFAULT_TIMEOUT'] = os.getenv("CACHE_DEFAULT_TIMEOUT")
-    app.config['CACHE_REDIS_PASSWORD'] = os.getenv("CACHE_REDIS_PASSWORD")
-    app.config['CACHE_REDIS_URL'] = f'redis://{os.getenv("CACHE_REDIS_HOST")}:{os.getenv("CACHE_REDIS_PORT")}/{os.getenv("CACHE_REDIS_DB")}'
+    keyshipping = consul.kv
+    app.config['CACHE_TYPE'] = keyshipping["shipping/CACHE_TYPE"] #os.getenv("CACHE_TYPE")
+    app.config['CACHE_DEFAULT_TIMEOUT'] = keyshipping["shipping/CACHE_DEFAULT_TIMEOUT"] #os.getenv("CACHE_DEFAULT_TIMEOUT")
+    app.config['CACHE_REDIS_PASSWORD'] = keyshipping["shipping/CACHE_REDIS_PASSWORD"] #os.getenv("CACHE_REDIS_PASSWORD")
+    app.config['CACHE_REDIS_URL'] = f'redis://{keyshipping["shipping/CACHE_REDIS_HOST"]}:{keyshipping["shipping/CACHE_REDIS_PORT"]}/{keyshipping["shipping/CACHE_REDIS_DB"]}'
+    #f'redis://{os.getenv("CACHE_REDIS_HOST")}:{os.getenv("CACHE_REDIS_PORT")}/{os.getenv("CACHE_REDIS_DB")}'
 
     cache.init_app(app)
 
-    HOST = os.getenv("DB_HOST")
-    USER = os.getenv("DB_USER")
-    PASSWORD = os.getenv("DB_PASSWORD")
-    PORT = os.getenv("DB_PORT")
-    DB_NAME = os.getenv("DB_DATABASE")
-    VIRTUAL_HOST = os.getenv("VIRTUAL_HOST")
-    ARTICLE_API = os.getenv("ARTICLE_API")
+    HOST = keyshipping["shipping/DB_HOST"]              #os.getenv("DB_HOST")
+    USER = keyshipping["shipping/DB_USER"] #os.getenv("DB_USER")
+    PASSWORD = keyshipping["shipping/DB_PASSWORD"] #os.getenv("DB_PASSWORD")
+    PORT = keyshipping["shipping/DB_PORT"] #os.getenv("DB_PORT")
+    DB_NAME = keyshipping["shipping/DB_DATABASE"] #os.getenv("DB_DATABASE")
+    VIRTUAL_HOST = keyshipping["shipping/VIRTUAL_HOST"] #os.getenv("VIRTUAL_HOST")
+    ARTICLE_API = keyshipping["shipping/ARTICLES_API"] #os.getenv("ARTICLE_API")
 
     print(f'HOST: {HOST}')
     print(f'USER: {USER}')

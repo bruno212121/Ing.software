@@ -5,9 +5,12 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
 from flask_cors import CORS
 from flask_caching import Cache
+from consulate import Consul
 import pybreaker
+import socket
 
 
+consul = Consul(host="consul")
 api = Api()
 db = SQLAlchemy()
 cache = Cache()
@@ -17,20 +20,35 @@ def create_app():
     app = Flask(__name__)
     load_dotenv()
 
- 
-    app.config['CACHE_TYPE'] = os.getenv("CACHE_TYPE")
-    app.config['CACHE_DEFAULT_TIMEOUT'] = os.getenv("CACHE_DEFAULT_TIMEOUT")
-    app.config['CACHE_REDIS_PASSWORD'] = os.getenv("CACHE_REDIS_PASSWORD")
-    app.config['CACHE_REDIS_URL'] = f'redis://{os.getenv("CACHE_REDIS_HOST")}:{os.getenv("CACHE_REDIS_PORT")}/{os.getenv("CACHE_REDIS_DB")}'
+    serviceip = socket.gethostbyname(socket.gethostname())
+    #autoregistro en consul automatico
+    consul.agent.service.register(
+        name="articles",
+        service_id="articles",
+        address=serviceip,
+        tags=["traefik.enable=true"
+             , "traefik.http.routers.article.rule=Host(`article.order.localhost`)"
+             , "traefik.http.routers.article.tls=true"
+             , "traefik.http.services.article.loadbalancer.server.port=7000"
+             , "traefik.docker.network=red"
+            
+             , "traefik.http.middlewares.latency-check.circuitbreaker.expression=LatencyAtQuantileMS(50.0) > 100"
 
+             , "traefik.http.services.article.loadbalancer.server.scheme=http"] 
+    )
+
+    keyarticles = consul.kv
+    app.config['CACHE_TYPE'] = keyarticles["articles/CACHE_TYPE"] #os.getenv("CACHE_TYPE")
+    app.config['CACHE_DEFAULT_TIMEOUT'] = keyarticles["articles/CACHE_DEFAULT_TIMEOUT"] #os.getenv("CACHE_DEFAULT_TIMEOUT")
+    app.config['CACHE_REDIS_PASSWORD'] = keyarticles["articles/CACHE_REDIS_PASSWORD"] #os.getenv("CACHE_REDIS_PASSWORD")
+    app.config['CACHE_REDIS_URL'] = f'redis://{keyarticles["articles/CACHE_REDIS_HOST"]}:{keyarticles["articles/CACHE_REDIS_PORT"]}/{keyarticles["articles/CACHE_REDIS_DB"]}'
+    #f'redis://{os.getenv("CACHE_REDIS_HOST")}:{os.getenv("CACHE_REDIS_PORT")}/{os.getenv("CACHE_REDIS_DB")}'
     cache.init_app(app)
-
-    HOST = os.getenv("DB_HOST")
-    USER = os.getenv("DB_USER")
-    PASSWORD = os.getenv("DB_PASSWORD")
-    PORT = os.getenv("DB_PORT")
-    DB_NAME = os.getenv("DB_DATABASE")
-
+    HOST = keyarticles["articles/DB_HOST"]           #os.getenv("DB_HOST") 
+    USER = keyarticles["articles/DB_USER"]           #os.getenv("DB_USER")
+    PASSWORD = keyarticles["articles/DB_PASSWORD"]   #os.getenv("DB_PASSWORD")
+    PORT = keyarticles["articles/DB_PORT"]           #os.getenv("DB_PORT")
+    DB_NAME = keyarticles["articles/DB_DATABASE"]    #os.getenv("DB_DATABASE")
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['TESTING'] = True
