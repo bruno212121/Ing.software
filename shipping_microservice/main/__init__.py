@@ -6,6 +6,7 @@ from flask_restful import Api
 from flask_cors import CORS
 from flask_caching import Cache
 from consulate import Consul
+from consulate.models import agent
 import pybreaker
 import socket
 
@@ -18,8 +19,18 @@ db_breaker = pybreaker.CircuitBreaker(fail_max=5, reset_timeout=60)
 def create_app():
     app = Flask(__name__)
     load_dotenv()
-
     serviceip = socket.gethostbyname(socket.gethostname())
+    
+    checks=agent.Check(
+        name="shipping",
+        http="https://shipping.order.localhost/shipping/healthcheck",
+        interval="10s",
+        tls_skip_verify=True,
+        timeout="1s",
+        status="passing"
+    )
+    
+    
     consul.agent.service.register(
         name="shipping",
         service_id="shipping",
@@ -31,9 +42,13 @@ def create_app():
       , "traefik.docker.network=red"
       , "traefik.http.services.shipping.loadbalancer.server.scheme=http"
 
-      , "traefik.http.middlewares.latency-check.circuitbreaker.expression=LatencyAtQuantileMS(50.0) > 100"]
+      , "traefik.http.middlewares.latency-check.circuitbreaker.expression=LatencyAtQuantileMS(50.0) > 100"],
+        checks=[checks]
     )
  
+    from main.routes import routes
+    app.register_blueprint(routes.shipping)
+
     keyshipping = consul.kv
     app.config['CACHE_TYPE'] = keyshipping["shipping/CACHE_TYPE"] #os.getenv("CACHE_TYPE")
     app.config['CACHE_DEFAULT_TIMEOUT'] = keyshipping["shipping/CACHE_DEFAULT_TIMEOUT"] #os.getenv("CACHE_DEFAULT_TIMEOUT")

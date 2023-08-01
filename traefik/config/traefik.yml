@@ -39,6 +39,11 @@ providers:
     connectAware: true
     serviceName: "traefik"
     prefix: traefik
-    exposedByDefault: false 
+    exposedByDefault: true 
     endpoint: 
       address: "consul:8500"
+      scheme: "http"
+      tls:
+        insecureSkipVerify: true
+    watch: true
+    defaultRule: "Host(`{{ normalize .Name }}.order.localhost`)"
