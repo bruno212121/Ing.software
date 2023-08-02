@@ -1,12 +1,12 @@
 version: "3.3"
 
-services:
+services: 
 
     article:
         build: .
         # ports: 
         #     - "7000:7000"
-        # container_name: article_microservice
+        #    container_name: article_microservice
         # environment:
         #     - DB_HOST=dbinhttps://articles.order.localhost/gsoft
         #     - DB_PORT=3306

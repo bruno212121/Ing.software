@@ -2,8 +2,8 @@ from marshmallow import Schema, fields, post_load, post_dump
 from main.models import ArticlesOrderModel
 from .order_schema import OrderSchema
 
-class ArticlesOrderSchema(Schema):
-    id = fields.Int(dump_only=True)
+class ArticlesOrderSchema(Schema): 
+    id = fields.Int(dump_only=True) 
     article_id = fields.Int(required=True)
     order_id = fields.Int(required=True)
     ammount_article = fields.Int(required=True)
