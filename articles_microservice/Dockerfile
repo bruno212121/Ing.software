@@ -1,7 +1,6 @@
 FROM python:3.10-buster
 
-
-ENV FLASK_ENV=production 
+# ENV FLASK_ENV=production 
 ENV PROD_DATABASE_URI=""
 ENV PYTHONUNBUFFERED=1
 ENV PATH=$PATH:/home/flaskapp/.local/bin
