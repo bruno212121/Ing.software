@@ -23,7 +23,7 @@ def create_app():
     
     checks=agent.Check(
         name="shipping",
-        http="https://shipping.order.localhost/shipping/healthcheck",
+        http="https://shipping.order.localhost/healthcheck",
         interval="10s",
         tls_skip_verify=True,
         timeout="1s",
