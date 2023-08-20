@@ -25,33 +25,38 @@ def create_app():
     serviceip = socket.gethostbyname(socket.gethostname())
     
     checks=agent.Check(
-        name="articles",
+        name="article",
         http="https://article.order.localhost/healthcheck",
-        interval="10s",
+        interval="60s",
         tls_skip_verify=True,
-        timeout="1s",
+        timeout="10s",
         status="passing"
     )
+
+    import uuid
+    def generate_code():
+        return str(uuid.uuid4()).replace('-', '').upper()[0:6]
     
     #autoregistro en consul automatico
     consul.agent.service.register(
-        name="articles",
-        service_id="articles",
+        name="article",
+        # service_id=f"article_{generate_code()}",
+        service_id=f"article",
         address=serviceip,
-        tags=["traefik.enable=true"
-             , "traefik.http.routers.article.rule=Host(`article.order.localhost`)"
-             , "traefik.http.routers.article.tls=true"
-             , "traefik.http.services.article.loadbalancer.server.port=7000"
-             , "traefik.docker.network=red"
-            
-             , "traefik.http.middlewares.latency-check.circuitbreaker.expression=LatencyAtQuantileMS(50.0) > 100"
-
-             , "traefik.http.services.article.loadbalancer.server.scheme=http"], 
+        tags=[
+            "traefik.enable=true",
+            "traefik.http.routers.article.rule=Host(`article.order.localhost`)",
+            "traefik.http.routers.article.tls=true",
+            "traefik.http.services.article.loadbalancer.server.port=6000",
+            "traefik.docker.network=red",
+            "traefik.http.middlewares.latency-check.circuitbreaker.expression=LatencyAtQuantileMS(50.0) > 100",
+            "traefik.http.services.article.loadbalancer.server.scheme=http"
+            ], 
         checks=[checks] #TODO: aca ya hay algo que falta
     )
 
-    from main.routes import routes
-    app.register_blueprint(routes.articles)
+    # from main.routes import routes
+    # app.register_blueprint(routes.article)
 
     keyarticles = consul.kv
     app.config['CACHE_TYPE'] = keyarticles["articles/CACHE_TYPE"] # or os.getenv("CACHE_TYPE")

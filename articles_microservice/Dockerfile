@@ -1,6 +1,6 @@
 FROM python:3.10-buster
 
-# ENV FLASK_ENV=production 
+ENV FLASK_ENV=production 
 ENV PROD_DATABASE_URI=""
 ENV PYTHONUNBUFFERED=1
 ENV PATH=$PATH:/home/flaskapp/.local/bin
@@ -36,7 +36,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install gevent gunicorn==20.1.0
 
 #puerto por el que escucha la imagen
-EXPOSE 7000
+EXPOSE 6000
 
 #HEALTHCHECK --interval=10s --timeout=10s --start-period=55s 
 #CMD curl -f --retry 10 --max-time 15 --retry-delay 10 --retry-max-time 60 "http://localhost:5000/api/v1/health" || exit 1   
