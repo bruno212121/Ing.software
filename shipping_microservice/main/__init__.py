@@ -19,32 +19,46 @@ db_breaker = pybreaker.CircuitBreaker(fail_max=5, reset_timeout=60)
 def create_app():
     app = Flask(__name__)
     load_dotenv()
+
     serviceip = socket.gethostbyname(socket.gethostname())
     
     checks=agent.Check(
         name="shipping",
         http="https://shipping.order.localhost/healthcheck",
-        interval="10s",
+        interval="60s",
         tls_skip_verify=True,
-        timeout="1s",
+        timeout="10s",
         status="passing"
     )
+
+    import uuid
+    def generate_code():
+        return str(uuid.uuid4()).replace('-', '').upper()[0:6]
     
+    # limpiar todos los servicios registrados
+    # def deregister_all_services():
+    #     services = consul.agent.services()
+    #     for service_id in services:
+    #         consul.agent.service.deregister(service_id)
+
+    # deregister_all_services()
     
     consul.agent.service.register(
         name="shipping",
-        service_id="shipping",
+        # service_id=f"shipping_{generate_code()}",
+        service_id=f"shipping",
         address=serviceip,
-        tags=["traefik.enable=true"
-      , "traefik.http.routers.shipping.rule=Host(`shipping.order.localhost`)"
-      , "traefik.http.routers.shipping.tls=true"
-      , "traefik.http.services.shipping.loadbalancer.server.port=7000"
-      , "traefik.docker.network=red"
-      , "traefik.http.services.shipping.loadbalancer.server.scheme=http"
-
-      , "traefik.http.middlewares.latency-check.circuitbreaker.expression=LatencyAtQuantileMS(50.0) > 100"],
+        tags=[
+            "traefik.enable=true",
+            "traefik.http.routers.shipping.rule=Host(`shipping.order.localhost`)",
+            "traefik.http.routers.shipping.tls=true",
+            "traefik.http.services.shipping.loadbalancer.server.port=7000",
+            "traefik.docker.network=red",
+            "traefik.http.services.shipping.loadbalancer.server.scheme=http"
+            ],
         checks=[checks]
     )
+
  
     from main.routes import routes
     app.register_blueprint(routes.shipping)
@@ -66,13 +80,13 @@ def create_app():
     VIRTUAL_HOST = keyshipping["shipping/VIRTUAL_HOST"] #os.getenv("VIRTUAL_HOST")
     ARTICLE_API = keyshipping["shipping/ARTICLES_API"] #os.getenv("ARTICLE_API")
 
-    print(f'HOST: {HOST}')
-    print(f'USER: {USER}')
-    print(f'PASSWORD: {PASSWORD}')
-    print(f'PORT: {PORT}')
-    print(f'DB_NAME: {DB_NAME}')
-    print(f'VIRTUAL_HOST: {VIRTUAL_HOST}')
-    print(f'ARTICLE_API: {ARTICLE_API}')
+    # print(f'HOST: {HOST}')
+    # print(f'USER: {USER}')
+    # print(f'PASSWORD: {PASSWORD}')
+    # print(f'PORT: {PORT}')
+    # print(f'DB_NAME: {DB_NAME}')
+    # print(f'VIRTUAL_HOST: {VIRTUAL_HOST}')
+    # print(f'ARTICLE_API: {ARTICLE_API}')
 
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
