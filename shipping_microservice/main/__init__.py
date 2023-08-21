@@ -25,9 +25,9 @@ def create_app():
     checks=agent.Check(
         name="shipping",
         http="https://shipping.order.localhost/healthcheck",
-        interval="60s",
+        interval="10s",
         tls_skip_verify=True,
-        timeout="10s",
+        timeout="1s",
         status="passing"
     )
 
@@ -36,17 +36,17 @@ def create_app():
         return str(uuid.uuid4()).replace('-', '').upper()[0:6]
     
     # limpiar todos los servicios registrados
-    # def deregister_all_services():
-    #     services = consul.agent.services()
-    #     for service_id in services:
-    #         consul.agent.service.deregister(service_id)
+    def deregister_all_services():
+        services = consul.agent.services()
+        for service_id in services:
+            consul.agent.service.deregister(service_id)
 
     # deregister_all_services()
     
     consul.agent.service.register(
         name="shipping",
-        # service_id=f"shipping_{generate_code()}",
-        service_id=f"shipping",
+        service_id=f"shipping_{generate_code()}",
+        # service_id=f"shipping",
         address=serviceip,
         tags=[
             "traefik.enable=true",
@@ -55,13 +55,13 @@ def create_app():
             "traefik.http.services.shipping.loadbalancer.server.port=7000",
             "traefik.docker.network=red",
             "traefik.http.services.shipping.loadbalancer.server.scheme=http"
-            ],
+        ],
         checks=[checks]
     )
 
  
-    from main.routes import routes
-    app.register_blueprint(routes.shipping)
+    # from main.routes import routes
+    # app.register_blueprint(routes.shipping)
 
     keyshipping = consul.kv
     app.config['CACHE_TYPE'] = keyshipping["shipping/CACHE_TYPE"] #os.getenv("CACHE_TYPE")

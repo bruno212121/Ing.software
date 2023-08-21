@@ -27,9 +27,9 @@ def create_app():
     checks=agent.Check(
         name="article",
         http="https://article.order.localhost/healthcheck",
-        interval="60s",
+        interval="10s",
         tls_skip_verify=True,
-        timeout="10s",
+        timeout="1s",
         status="passing"
     )
 
@@ -40,8 +40,8 @@ def create_app():
     #autoregistro en consul automatico
     consul.agent.service.register(
         name="article",
-        # service_id=f"article_{generate_code()}",
-        service_id=f"article",
+        service_id=f"article_{generate_code()}",
+        # service_id=f"article",
         address=serviceip,
         tags=[
             "traefik.enable=true",

@@ -21,17 +21,20 @@ services:
         #     - CACHE_REDIS_DB=0
         
         # labels:
-            # - "traefik.enable=true"
-            # - "traefik.http.routers.article.rule=Host(`article.order.localhost`)"
-            # - "traefik.http.routers.article.tls=true"
-            # - "traefik.http.services.article.loadbalancer.server.port=6000"
-            # - "traefik.docker.network=red"
-            # - "traefik.http.middlewares.latency-check.circuitbreaker.expression=LatencyAtQuantileMS(50.0) > 100"
-            # - "traefik.http.services.article.loadbalancer.server.scheme=http"
+        #     - "traefik.enable=true"
+        #     - "traefik.http.routers.article.rule=Host(`article.order.localhost`)"
+        #     - "traefik.http.routers.article.tls=true"
+        #     - "traefik.http.services.article.loadbalancer.server.port=6000"
+        #     - "traefik.docker.network=red"
+        #     - "traefik.http.middlewares.latency-check.circuitbreaker.expression=LatencyAtQuantileMS(50.0) > 100"
+        #     - "traefik.http.services.article.loadbalancer.server.scheme=http"
     
         # dns_search:
         #     - traefik.order.localhost
         
+        volumes:
+            - .:/app/main
+
         networks:
             - red
 
