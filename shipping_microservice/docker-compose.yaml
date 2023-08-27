@@ -29,7 +29,10 @@ services:
     #   - "traefik.http.services.shipping.loadbalancer.server.scheme=http"
 
     #   - "traefik.http.middlewares.latency-check.circuitbreaker.expression=LatencyAtQuantileMS(50.0) > 100"
-      
+
+    volumes:
+      - .:/app/main
+
     networks:
       - red
 

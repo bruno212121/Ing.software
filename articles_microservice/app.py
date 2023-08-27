@@ -11,7 +11,7 @@ app = create_app()
 
 app.app_context().push()
 
-@app.route('/health', methods=['GET'])
+@app.route('/healthcheck', methods=['GET'])
 def health_check():
     # Verificar aquí la salud de tu aplicación
     # Puedes agregar lógica adicional, como verificar conexiones a la base de datos u otros servicios
@@ -22,4 +22,4 @@ def health_check():
 if __name__ == '__main__':
     db.drop_all()
     db.create_all()
-    app.run(host = '0.0.0.0', debug = True, port = 7000)
+    app.run(host = '0.0.0.0', debug = True, port = 6000)
