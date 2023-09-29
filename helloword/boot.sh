@@ -1,11 +1,14 @@
 #!/bin/bash
 
 GROUP_NAME=umGroupResource
-ACR_NAME=registerhelloworld
+# ACR_NAME=registerhelloworld
+ACR_NAME=stocklister
 TAG=v1
-APP_IMAGE=helloworld
+# APP_IMAGE=helloworld
+APP_IMAGE=article
 SERVICE_PRINCIPAL_NAME=universidad
 ACR_REGISTRY_ID=$(az acr show --name $ACR_NAME --query "id" --output tsv)
+IMAGE_PATH="../articles_microservice/"
 
 az group create --name $GROUP_NAME --location eastus 
 
@@ -19,7 +22,8 @@ else
 fi
 
 # Verificar si la etiqueta de la imagen ya existe en el ACR
-if az acr repository show-tags --name $ACR_NAME --repository $APP_IMAGE --output tsv | grep -q $TAG; then
+if az acr repository list --name stocklister --output tsv | grep -q $TAG; then
+
     echo "La etiqueta '$TAG' de la imagen '$APP_IMAGE' ya existe en el ACR '$ACR_NAME'. No es necesario volver a empujar la imagen."
 
     USER_NAME=$(az ad sp list --display-name $SERVICE_PRINCIPAL_NAME --query "[].appId" --output tsv)
@@ -31,11 +35,16 @@ if az acr repository show-tags --name $ACR_NAME --repository $APP_IMAGE --output
     az group list -output tsv
 
 else
-    Si la etiqueta no existe, construir y empujar la imagen
+    echo La etiqueta no existe, construir y empujar la imagen
     az acr login --name $ACR_NAME
     ACR_REGISTRY_ID=$(az acr show-name $ACR_NAME --query "id" --output tsv)
+    
+    # USER_NAME=$(az ad sp list --display-name $SERVICE_PRINCIPAL_NAME --query "[].appId" --output tsv)
 
-    docker build -t $APP_IMAGE:$TAG .
+    PASSWORD=$(az ad sp list --dispaly-name $SERVICE_PRINCIPAL_NAME --scopes $ACR_REGISTRY_ID --role acrpull --query "password" --output tsv) 
+
+    # docker build -t $APP_IMAGE:$TAG .
+    docker build -t $APP_IMAGE:$TAG $IMAGE_PATH
     docker tag $APP_IMAGE:$TAG $ACR_NAME.azurecr.io/$APP_IMAGE:$TAG
     az acr repository list --name $ACR_NAME --output table
     docker push $ACR_NAME.azureacr.io/$APP_IMAGE:$TAG
